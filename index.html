@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="extras.css">
+</head>
+<body>
+<!-- ===== Menú hamburguesa ===== -->
+<header class="ep-bar">
+  <button class="ep-burger" id="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
+  <div class="ep-titulo" id="ep-titulo">🐻‍❄️ EcoPulse</div>
+</header>
+<div class="ep-overlay" id="menu-overlay"></div>
+<nav class="ep-drawer" id="menu-drawer" aria-label="Menú principal">
+  <h2>🐻‍❄️ EcoPulse</h2>
+  <a href="#juego" data-vista="juego">🎮 Juego de Polo</a>
+  <a href="#mapa" data-vista="mapa">🗺️ Mapa de tapitas</a>
+  <a href="#integrantes" data-vista="integrantes">👥 Quienes somos</a>
+  <small>Tocá afuera o Esc para cerrar</small>
+</nav>
+
+<!-- ===== Vista: Mapa de tapitas ===== -->
+<section class="vista" id="vista-mapa" hidden>
+ <div class="vista-in">
+  <h1>🗺️ Mapa de tapitas</h1>
+  <p class="sub">Tocá el mapa donde se colocó una tapita para registrar sus coordenadas.</p>
+  <div class="card">
+    <div id="mapa"></div>
+    <div class="mapa-error" id="mapa-error" hidden>No se pudo cargar el mapa. Revisá tu conexión a internet y recargá la página.</div>
+  </div>
+  <div class="card">
+    <h2>📍 Registrar un punto</h2>
+    <form class="form-punto" id="form-punto" autocomplete="off">
+      <div class="full coords" id="coords-sel">Todavía no elegiste ningún punto en el mapa.</div>
+      <label>Lugar / descripción<input type="text" id="p-lugar" maxlength="80" placeholder="Ej: Plaza San Martín, Córdoba"></label>
+      <label>Cantidad de tapitas<input type="number" id="p-cant" min="1" value="1"></label>
+      <div class="full acciones">
+        <button type="submit" class="verde">➕ Registrar punto</button>
+        <button type="button" class="claro" id="btn-ubic">📡 Usar mi ubicación</button>
+      </div>
+    </form>
+  </div>
+  <div class="card">
+    <h2>📋 Puntos registrados</h2>
+    <div class="resumen"><span id="r-puntos">0 puntos</span><span id="r-tapitas">0 tapitas</span></div>
+    <ul class="lista" id="lista-puntos"></ul>
+    <p class="vacio" id="lista-vacia">Aún no hay puntos registrados.</p>
+    <div class="acciones" style="margin-top:12px">
+      <button type="button" class="claro" id="btn-copiar">📋 Copiar coordenadas (JSON)</button>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== Vista: Integrantes ===== -->
+<section class="vista" id="vista-integrantes" hidden>
+ <div class="vista-in">
+  <h1>👥 QUIENES SOMOS</h1>
+  <p class="sub"><span class="eco-pulse">EcoPulse</span> es el nombre que tenemos nosotros quienes creamos a Polo el oso polar, surgimos 
+     como respuesta a la falta de espacios digitales accesibles y entretenidos que promuevan 
+     la concientización sobre el cuidado del medio ambiente,
+     especialmente entre niños y jóvenes.
+     Nuestro objetivo es concientizar y generar hábitos ambientales 
+     sostenidos en niños y jóvenes (10 a 15 años) 
+     a través de una experiencia interactiva.</p>
+
+  <div class="seccion-integrantes" style="margin-top: 30px;">
+    <h2>INTEGRANTES</h2>
+    <p class="sub">Somos alumnos de la Escuela Técnica N° 35 - Ing. Eduardo Latzina 
+      de cuarto año segunda division de la orientación de programación y computacion</p>
+    
+    <div class="equipo">
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a-/ALV-UjWZcGk61WE5XL82VHBmcWqOzy6DsK6oywH3Ps5qVuVzUvIHT4m5=s100-c" alt="Alti Olmedo Ulises"></div><h3>Orsi Lorenzo </h3></article>
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a-/ALV-UjUzpOjo6LgMjGwsmLJ_PerC5qQcpjXBinYPfRL1uzGvO8Eco0fjqQ=s100-c" alt="Andres Escriva"></div><h3>Pacheco Jennifer</h3></article>    
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a/ACg8ocI5e6wfktPhzFcG7fgHnHyqWUI0qmH_g0OTh-16pqzUD6Cr2fa3=s100-c" alt="De Echeandia Tiziano"></div><h3>De Echeandia Tiziano </h3></article>
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a-/ALV-UjV71zLVyNIsRZ-NcrhfhhPbtgzbNNcR1gEfj1TRYWroNAR6GH2I=s100-c" alt="Orsi Lorenzo"></div><h3>Alti Olmedo Ulises</h3></article>
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a-/ALV-UjX-inzEepH_cWbS-wraFWLfqNmqIbELyNKeWBzbhfRGILOt5CY=s100-c" alt="Pacheco Jennifer"></div><h3>Sisi Kevin</h3></article>
+      <article class="miembro"><div class="foto"><img src="https://lh3.googleusercontent.com/a-/ALV-UjXQsqX_MKMgjdLOQ7C1Q0wPek9uBER-O_LppuDmIJYSN5fl350=s100-c" alt="Sisi Kevin"></div><h3>Andres Escriva</h3></article>
+    </div>
+  </div>
+ </div>
+</section>
+
+<div id="Polo">
+<main class="game">
+  <header><h1>Polo</h1><div class="chips"></span><span id="monedas"></span></div></header>
+  <section class="stats">
+    <div class="stat"><span>Hambre</span><div class="bar"><i id="b-hambre"></i></div></div>
+    <div class="stat"><span>Energía</span><div class="bar"><i id="b-energia"></i></div></div>
+    <div class="stat"><span>Diversión</span><div class="bar"><i id="b-diversion"></i></div></div>
+    <div class="stat"><span>Limpieza</span><div class="bar"><i id="b-limpieza"></i></div></div>
+  </section>
+  <section class="stage" id="stage">
+    <svg id="bear" viewBox="0 0 200 220" role="img" aria-label="Polo, el oso polar" tabindex="0">
+      <g class="esc"><rect class="agua" x="-400" y="178" width="1000" height="420"/><path class="ola " d="M-200 204q20-8 40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0"/><path class="ola o2" d="M-200 262q20-8 40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0"/><defs><path id="hielo" d="M-2 207Q4 192 38 193Q70 187 104 191Q150 186 178 195Q208 199 206 212Q200 226 160 228Q120 233 84 229Q40 233 14 225Q-6 219 -2 207Z"/></defs><use href="#hielo" class="lado" y="11"/><use href="#hielo" class="hielo"/></g>
+      <ellipse class="shadow" id="sombra" cx="100" cy="212" rx="55" ry="7"/>
+      <g id="cuerpo">
+        <g id="r-capa" style="display:none"><path d="M62 112Q100 100 138 112L186 202Q100 222 14 202Z" fill="#7b3fb0" stroke="#5b2e8c" stroke-width="3" stroke-linejoin="round"/></g>
+        <g class="brazo" id="brazoL"><ellipse class="fur" cx="44" cy="160" rx="13" ry="27" transform="rotate(18 44 160)"/></g>
+        <g class="brazo" id="brazoR"><ellipse class="fur" cx="156" cy="160" rx="13" ry="27" transform="rotate(-18 156 160)"/></g>
+        <ellipse class="fur" cx="100" cy="150" rx="58" ry="58"/>
+        <g id="r-remera" style="display:none">
+        <defs><clipPath id="clip-remera"><ellipse cx="100" cy="150" rx="58" ry="58"/></clipPath></defs>
+        <g clip-path="url(#clip-remera)">
+       <path d="M30 134Q100 152 170 134L170 220L30 220Z" fill="#4f9ed6"/>
+       <path d="M30 154H170M30 170H170M30 186H170M30 202H170" stroke="#fff" stroke-width="7" opacity=".85"/>
+        </g>
+        </g>
+        <ellipse class="fur" cx="62" cy="200" rx="18" ry="11"/><ellipse class="fur" cx="138" cy="200" rx="18" ry="11"/>
+        <g id="manta"><path d="M42 150 q58 -12 116 0 l8 58 h-132z" fill="#7aa7e8" stroke="#5a86c8" stroke-width="3"/><path d="M50 172 q50 -8 100 0 M46 190 q54 -8 108 0" fill="none" stroke="#a9c8f5" stroke-width="4" stroke-linecap="round"/></g>
+        <g id="cabeza">
+          <circle class="fur" cx="52" cy="58" r="20"/><circle class="ear-in" cx="52" cy="58" r="9"/>
+          <circle class="fur" cx="148" cy="58" r="20"/><circle class="ear-in" cx="148" cy="58" r="9"/>
+          <ellipse class="fur" cx="100" cy="90" rx="62" ry="54"/>
+          <ellipse class="muzzle" cx="100" cy="108" rx="28" ry="21"/>
+          <g id="mirada"><g class="eyes"><ellipse class="eye" cx="76" cy="84" rx="6.5" ry="8"/><ellipse class="eye" cx="124" cy="84" rx="6.5" ry="8"/>
+            <circle class="glint" cx="78" cy="81" r="2.2"/><circle class="glint" cx="126" cy="81" r="2.2"/></g></g>
+          <path class="closed" d="M68 86 q8 6 16 0 M116 86 q8 6 16 0"/>
+          <path class="equis" d="M69 77 l14 14 M83 77 l-14 14 M117 77 l14 14 M131 77 l-14 14"/><g id="r-lentes" style="display:none"><ellipse cx="76" cy="84" rx="14" ry="11" fill="#1b2a36"/><ellipse cx="124" cy="84" rx="14" ry="11" fill="#1b2a36"/><path d="M90 82h20" stroke="#1b2a36" stroke-width="4"/><path d="M69 79q6-4 12-2M117 79q6-4 12-2" stroke="#fff" stroke-width="2.5" fill="none" opacity=".6"/></g>
+          <ellipse class="nose" cx="100" cy="98" rx="9" ry="6"/><circle id="moco" cx="106" cy="100" r="8" fill="rgba(160,220,255,.55)" stroke="#8ac" stroke-width="2"/>
+          <g id="boca"><ellipse cx="100" cy="118" rx="14" ry="12" fill="#5a1f2b"/><ellipse cx="100" cy="125" rx="8" ry="5" fill="#ff7a8a"/></g>
+          <path class="mouth" id="mouth" d="M88 114 q12 10 24 0"/>
+          <ellipse class="blush" cx="60" cy="102" rx="8" ry="5"/><ellipse class="blush" cx="140" cy="102" rx="8" ry="5"/>
+          <g id="mugre" fill="#8a6a4a" opacity="0"><circle cx="72" cy="66" r="6"/><circle cx="132" cy="70" r="5"/><circle cx="88" cy="62" r="3.5"/><circle cx="118" cy="122" r="4"/><circle cx="80" cy="124" r="3"/><circle cx="84" cy="172" r="7"/><circle cx="122" cy="184" r="6"/></g>
+
+
+          <g id="r-gorro" style="display:none"><path d="M44 64Q100-12 156 64Q100 52 44 64Z" fill="#e5484d"/><path d="M43 62Q100 48 157 62L155 74Q100 60 45 74Z" fill="#b3262b"/><circle cx="100" cy="21" r="9" fill="#fff" stroke="#b9dbe8" stroke-width="2"/></g><g id="r-bufanda" style="display:none"><path d="M46 138Q100 168 154 138L150 154Q100 184 50 154Z" fill="#e5484d"/><path d="M122 160l12 34-18 4-6-32Z" fill="#c9343a"/></g>
+          <g id="r-mono" style="display:none"><path d="M70 42L54 32V52Z M70 42L86 32V52Z" fill="#ff7a8a" stroke="#d9475a" stroke-width="2" stroke-linejoin="round"/><circle cx="70" cy="42" r="5" fill="#d9475a"/></g>
+<g id="r-auriculares" style="display:none"><path d="M42 92Q38 34 100 34Q162 34 158 92" fill="none" stroke="#2a2f3a" stroke-width="6" stroke-linecap="round"/><rect x="30" y="80" width="18" height="30" rx="8" fill="#ff7a8a" stroke="#2a2f3a" stroke-width="2"/><rect x="152" y="80" width="18" height="30" rx="8" fill="#ff7a8a" stroke="#2a2f3a" stroke-width="2"/></g>
+<g id="r-galera" style="display:none"><ellipse cx="100" cy="46" rx="52" ry="10" fill="#2b2f3a"/><path d="M70 46L74 6Q100 -2 126 6L130 46Z" fill="#2b2f3a"/><path d="M71 38Q100 46 129 38L130 46Q100 54 70 46Z" fill="#e5484d"/><ellipse cx="100" cy="6" rx="26" ry="5" fill="#3d4352"/></g>
+<g id="r-corona" style="display:none"><path d="M68 48L64 16L82 30L100 10L118 30L136 16L132 48Q100 40 68 48Z" fill="#ffd23f" stroke="#e0a800" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="36" r="4" fill="#e5484d"/><circle cx="64" cy="16" r="3.5" fill="#4fb6e0"/><circle cx="136" cy="16" r="3.5" fill="#4fb6e0"/></g>
+          <ellipse class="halo" cx="100" cy="12" rx="34" ry="8"/>
+        </g>
+      </g>
+      <g id="bubbles"></g><g id="basura"></g>
+    </svg>
+    <canvas id="fx"></canvas>
+    <div class="luna" aria-hidden="true">🌙</div>
+    <div class="zzz" aria-hidden="true">z z z</div>
+    <p class="msg" id="msg" role="status"></p>
+  </section>
+  <nav id="nav">
+    <button data-room="cocina">Cocina</button><button data-room="bano">Baño</button><button data-room="cuarto">Cuarto</button>
+    <button data-room="juego">Juego</button><button data-room="eco">♻️ Eco</button>
+  </nav>
+  <section class="panel" id="panel"></section>
+  <p class="hint">Arrastrá la comida a la boca de Polo. Tocá la basura que flota: lo orgánico se composta y el plástico se cambia por ropa (♻️ Eco). Teclas: 1-5 cambian de sala · D luz/dormir</p>
+</main>
+</div>
+</body>
+<script src = 'main.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="extras.js"></script>
+</html>
