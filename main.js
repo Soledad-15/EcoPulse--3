@@ -61,7 +61,7 @@ B("jugarTuberias", "🚰 Tuberías<small>−15 energía, regá el huerto</small>
 B("jugarReciclaje", "♻ Ecorreciclaje<small>−15 energía, ganás ❄️</small>") +
 B("jugarFocos", "💡 Apaga Focos<small>−15 energía, 2 min de rapidez</small>", "", "rosa") +
 B("jugarCinta", "🏭 Cinta de Residuos<small>−15 energía, ¡clasificá antes del 🔥!</small>", "", "verde"),
-    eco:`<p class="info">🍎 Orgánico <b>${s.org}</b> · 🥤 Plástico <b>${s.pla}</b> · 🌱 Compost <b>${s.comp}</b></p>`+B("compostar","🌱 Hacer compost<small>orgánico → ❄️ y ✨</small>","","verde")+Object.entries(ROPA).map(([k,[e,n,c]])=>B("ropa",e+" "+n+"<small>"+(s.ropa[k]==2?"puesto ✓":s.ropa[k]?"ponérselo":c+" 🥤")+"</small>",k)).join("")+'<p class="info">Tocá la basura que flota: 🍌 se composta y 🥤 se cambia por ropa.</p>',
+    eco:`<p class="info">🍎 Orgánico <b>${s.org}</b> | 🥤 Plástico <b>${s.pla}</b> | 🌱 Compost <b>${s.comp}</b></p>`+B("compostar","🌱 Hacer compost<small>orgánico → ❄️ y ✨</small>","","verde")+Object.entries(ROPA).map(([k,[e,n,c]])=>B("ropa",e+" "+n+"<small>"+(s.ropa[k]==2?"puesto ✓":s.ropa[k]?"ponérselo":c+" 🥤")+"</small>",k)).join("")+'<p class="info">Tocá la basura que flota: 🍌 se composta y 🥤 se cambia por ropa.</p>',
   }[sala];
   panel.style.gridTemplateColumns=sala=="cocina"||sala=="eco"?"repeat(3,1fr)":"";
 }
